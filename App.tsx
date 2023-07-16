@@ -5,25 +5,12 @@
  * @format
  */
 
+import { SEGMENTS_PATH } from '@env';
 import React, { useEffect, useState } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-  View,
-} from 'react-native';
-import WebView from 'react-native-webview';
+import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-  },
-});
+import { IframePlayer } from './components/IFramePlayer';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -34,7 +21,7 @@ function App(): JSX.Element {
   };
 
   useEffect(() => {
-    fetch('https://bsu.drhx.ru/data/segments.json')
+    fetch(SEGMENTS_PATH)
       .then(res => res.json())
       .then(result => {
         const allVideos: Record<string, any>[] = Object.values(result);
@@ -52,21 +39,7 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <View style={styles.container}>
-        {youtubeId && (
-          <WebView
-            startInLoadingState
-            javaScriptEnabled
-            allowsFullscreenVideo
-            allowsInlineMediaPlayback
-            mediaPlaybackRequiresUserAction
-            onError={err => console.log('err', err)}
-            source={{
-              html: `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${youtubeId}" title="Mafia II #3 [03.11.19] (перезалив⁴)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`,
-            }}
-          />
-        )}
-      </View>
+      {youtubeId && <IframePlayer youtubeId={youtubeId} />}
     </SafeAreaView>
   );
 }

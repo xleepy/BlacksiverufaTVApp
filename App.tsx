@@ -12,9 +12,17 @@ import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { IframePlayer } from './components/IFramePlayer';
 
+export type Segment = {
+  youtube: string;
+  name: string;
+  date: string;
+  games: string[];
+  note?: string;
+};
+
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [segments, setSegments] = useState<Record<string, any>[]>();
+  const [segments, setSegments] = useState<Segment[]>();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -24,14 +32,12 @@ function App(): JSX.Element {
     fetch(SEGMENTS_PATH)
       .then(res => res.json())
       .then(result => {
-        const allVideos: Record<string, any>[] = Object.values(result);
+        const allVideos: Segment[] = Object.values(result);
         setSegments(allVideos);
       });
   }, []);
 
   const [firstSegment] = segments ?? [];
-
-  const youtubeId = firstSegment?.youtube;
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -39,7 +45,12 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      {youtubeId && <IframePlayer youtubeId={youtubeId} />}
+      {firstSegment && (
+        <IframePlayer
+          name={firstSegment.name}
+          youtubeId={firstSegment.youtube}
+        />
+      )}
     </SafeAreaView>
   );
 }

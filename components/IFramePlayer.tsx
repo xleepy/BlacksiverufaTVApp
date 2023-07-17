@@ -1,29 +1,37 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import WebView from 'react-native-webview';
 
 type Props = {
   youtubeId: string;
+  name: string;
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
     height: '100%',
+    width: '100%',
   },
 });
 
-export const IframePlayer = ({ youtubeId }: Props) => {
+const runFirst = `
+window.isNativeApp = true;
+true; // note: this is required, or you'll sometimes get silent failures
+`;
+
+export const IframePlayer = ({ youtubeId, name }: Props) => {
+  const link = `https://www.youtube.com/embed/${youtubeId}`;
+  // const link = 'https://www.youtube.com/embed/r0MNk_D2H9A';
   return (
     <View style={styles.container}>
+      <Text>{name}</Text>
       <WebView
-        startInLoadingState
-        javaScriptEnabled
+        injectedJavaScriptBeforeContentLoaded={runFirst}
         allowsFullscreenVideo
-        allowsInlineMediaPlayback
-        mediaPlaybackRequiresUserAction
+        thirdPartyCookiesEnabled
+        accessibilityLabel={name}
         source={{
-          html: `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${youtubeId}" title="Mafia II #3 [03.11.19] (перезалив⁴)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`,
+          uri: link,
         }}
       />
     </View>

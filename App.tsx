@@ -5,37 +5,20 @@
  * @format
  */
 
-import { SEGMENTS_PATH } from '@env';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { IframePlayer } from './components/IFramePlayer';
-
-export type Segment = {
-  youtube: string;
-  name: string;
-  date: string;
-  games: string[];
-  note?: string;
-};
+import { useSegments } from './hooks/data';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [segments, setSegments] = useState<Segment[]>();
+  const segments = useSegments();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
-  useEffect(() => {
-    fetch(SEGMENTS_PATH)
-      .then(res => res.json())
-      .then(result => {
-        const allVideos: Segment[] = Object.values(result);
-        setSegments(allVideos);
-      });
-  }, []);
 
   const [firstSegment] = segments ?? [];
 

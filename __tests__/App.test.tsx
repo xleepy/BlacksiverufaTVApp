@@ -14,7 +14,7 @@ import renderer from 'react-test-renderer';
 
 jest.mock('../hooks/data', () => {
   return {
-    useSegments: () => [{ youtube: 'test', name: 'test' }],
+    useSegments: () => [{ youtube: 'test', name: 'test', direct: 'test' }],
   };
 });
 

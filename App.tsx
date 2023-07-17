@@ -9,7 +9,7 @@ import React from 'react';
 import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { IframePlayer } from './components/IFramePlayer';
+import { Player } from './components/Player';
 import { useSegments } from './hooks/data';
 
 function App(): JSX.Element {
@@ -20,7 +20,9 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const [firstSegment] = segments ?? [];
+  const segmentWithDirectLink = segments.find(s => !!s.direct);
+
+  console.log(segmentWithDirectLink);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -28,12 +30,7 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      {firstSegment && (
-        <IframePlayer
-          name={firstSegment.name}
-          youtubeId={firstSegment.youtube}
-        />
-      )}
+      {segmentWithDirectLink && <Player {...segmentWithDirectLink} />}
     </SafeAreaView>
   );
 }

@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { SEGMENTS_PATH } from '@env';
 
 export type Segment = {
-  youtube: string;
+  youtube?: string;
   name: string;
   date: string;
   games: string[];
   note?: string;
+  direct?: string;
+  hls?: string;
+  subtitles?: string;
 };
 
 export function useSegments() {

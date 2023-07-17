@@ -19,6 +19,14 @@ exports[`renders correctly 1`] = `
     <Text>
       test
     </Text>
+    <View
+      style={
+        {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
   </View>
 </RCTSafeAreaView>
 `;

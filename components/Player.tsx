@@ -22,12 +22,14 @@ window.isNativeApp = true;
 true; // note: this is required, or you'll sometimes get silent failures
 `;
 
-export const Player = ({ youtube, name, direct }: Props) => {
+export const Player = ({ youtube, name, direct, hls }: Props) => {
   console.log('direct', direct);
+
+  const haveDirectLink = !!hls || !!direct;
   return (
     <View style={styles.container}>
       <Text>{name}</Text>
-      {!!direct && <NativePlayer uri={direct} />}
+      {haveDirectLink && <NativePlayer hls={hls} direct={direct} />}
       {!direct && youtube && (
         <WebView
           injectedJavaScriptBeforeContentLoaded={runFirst}

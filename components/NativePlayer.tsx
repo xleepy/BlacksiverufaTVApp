@@ -1,23 +1,39 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Video from 'react-native-video';
 
 const styles = StyleSheet.create({
-  video: {
+  container: {
+    position: 'relative',
     width: '100%',
     height: '100%',
+  },
+  videoContainer: {
+    position: 'relative',
+    height: '100%',
+    width: '100%',
+  },
+  video: {
+    position: 'absolute',
+    height: '100%',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0,
   },
 });
 
 type Props = {
-  uri: string;
+  hls?: string;
+  direct?: string;
 };
 
 type PlayerState = 'loading' | 'buffering' | 'idle';
 
 // docs https://github.com/react-native-video/react-native-video/blob/master/API.md#onload
 
-export const NativePlayer = ({ uri }: Props) => {
+export const NativePlayer = ({ hls, direct }: Props) => {
+  const playerRef = useRef<Video>(null);
   const [playerState, setPlayerState] = useState<PlayerState>('idle');
 
   const handleLoadStart = useCallback(() => {
@@ -36,16 +52,20 @@ export const NativePlayer = ({ uri }: Props) => {
   const shouldDisplayIndicator = playerState !== 'idle';
 
   return (
-    <View style={styles.video}>
+    <View style={styles.container}>
       {shouldDisplayIndicator && <Text>Loading....</Text>}
-      <Video
-        style={styles.video}
-        source={{ uri }}
-        onError={console.error}
-        onLoad={handleLoad}
-        onLoadStart={handleLoadStart}
-        onBuffer={handleBuffering}
-      />
+      <View style={styles.videoContainer}>
+        <Video
+          ref={playerRef}
+          controls
+          style={styles.video}
+          source={{ uri: hls ?? direct, type: hls ? 'm3u8' : 'mp4' }}
+          onError={console.error}
+          onLoad={handleLoad}
+          onLoadStart={handleLoadStart}
+          onBuffer={handleBuffering}
+        />
+      </View>
     </View>
   );
 };

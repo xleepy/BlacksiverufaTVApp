@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import WebView from 'react-native-webview';
-import { Segment } from '../hooks/data';
 import { NativePlayer } from './NativePlayer';
+import { Segment } from '../home/hooks';
 
 type Props = Segment;
 
@@ -23,14 +23,11 @@ true; // note: this is required, or you'll sometimes get silent failures
 `;
 
 export const Player = ({ youtube, name, direct, hls }: Props) => {
-  console.log('direct', direct);
-
   const haveDirectLink = !!hls || !!direct;
   return (
     <View style={styles.container}>
-      <Text>{name}</Text>
       {haveDirectLink && <NativePlayer hls={hls} direct={direct} />}
-      {!direct && youtube && (
+      {!haveDirectLink && youtube && (
         <WebView
           injectedJavaScriptBeforeContentLoaded={runFirst}
           allowsFullscreenVideo

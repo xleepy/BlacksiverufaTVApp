@@ -5,20 +5,17 @@
 import 'react-native';
 import React from 'react';
 import App from '../App';
+import { render } from '@testing-library/react-native';
 
-// Note: import explicitly to use the types shiped with jest.
-import { it, expect, jest } from '@jest/globals';
-
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
-
-jest.mock('../hooks/data', () => {
+jest.mock('../components/home/hooks.ts', () => {
   return {
-    useSegments: () => [{ youtube: 'test', name: 'test', direct: 'test' }],
+    useSegments: () => [
+      { youtube: 'test', name: 'test', direct: 'test', id: 'test' },
+    ],
   };
 });
 
 it('renders correctly', () => {
-  const render = renderer.create(<App />);
-  expect(render.toJSON()).toMatchSnapshot();
+  const { toJSON } = render(<App />);
+  expect(toJSON()).toMatchSnapshot();
 });

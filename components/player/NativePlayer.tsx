@@ -25,7 +25,6 @@ type PlayerState = 'loading' | 'buffering' | 'idle';
 // docs https://github.com/react-native-video/react-native-video/blob/master/API.md#onload
 
 export const NativePlayer = ({ hls, direct }: Props) => {
-  const playerRef = useRef<Video>(null);
   const [playerState, setPlayerState] = useState<PlayerState>('idle');
   const orientation = useOrientation();
 
@@ -47,7 +46,6 @@ export const NativePlayer = ({ hls, direct }: Props) => {
     <View style={styles.container}>
       {shouldDisplayIndicator && <Text>Loading....</Text>}
       <Video
-        ref={playerRef}
         controls
         resizeMode={orientation === 'landscape' ? 'cover' : 'contain'}
         style={styles.video}

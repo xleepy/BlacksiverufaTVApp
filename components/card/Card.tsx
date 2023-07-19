@@ -17,12 +17,13 @@ const styles = StyleSheet.create({
 
 export const Card = ({ segment, onSegmentSelect }: Props) => {
   const handlePress = useCallback(() => {
+    console.log('called');
     onSegmentSelect(segment);
   }, [onSegmentSelect, segment]);
 
   return (
     <TouchableHighlight onPress={handlePress}>
-      <View style={styles.card}>
+      <View testID={segment.name} style={styles.card}>
         <Text>{segment.name}</Text>
       </View>
     </TouchableHighlight>

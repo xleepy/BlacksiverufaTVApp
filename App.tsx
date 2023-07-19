@@ -5,56 +5,54 @@
  * @format
  */
 
-import React, {useEffect, useState} from 'react';
-import type {PropsWithChildren} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
   View,
+  useColorScheme,
 } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Home } from './components/home/Home';
+import { PlayerScreen } from './components/player/PlayerScreen';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createNativeStackNavigator();
+
+const styles = StyleSheet.create({
+  navigatorContainer: {
+    flex: 1,
+  },
+  root: {
+    flex: 1,
+  },
+});
+
+// docs: https://reactnavigation.org/docs/headers
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [segments, setSegments] = useState();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  useEffect(() => {
-    fetch('https://bsu.drhx.ru/data/segments.json')
-      .then(res => res.json())
-      .then(setSegments);
-  }, []);
-
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={styles.root}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Text>{JSON.stringify(segments, null, 2)}</Text>
-        </View>
-      </ScrollView>
+      <View style={styles.navigatorContainer}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Player" component={PlayerScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
     </SafeAreaView>
   );
 }

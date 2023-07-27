@@ -13,10 +13,12 @@ export type Segment = {
   id: string;
 };
 
-export function useSegments() {
-  const [segments, setSegments] = useState<Segment[]>();
+export function useSegments(): [Segment[], boolean] {
+  const [segments, setSegments] = useState<Segment[]>([]);
+  const [isLoading, setLoading] = useState(false);
   useEffect(() => {
     let ignore = false;
+    setLoading(true);
     fetch(SEGMENTS_PATH)
       .then(res => res.json())
       .then(result => {
@@ -29,6 +31,9 @@ export function useSegments() {
           return { ...segment, id: key } as Segment;
         });
         setSegments(allVideos);
+      })
+      .finally(() => {
+        setLoading(false);
       });
 
     return () => {
@@ -36,5 +41,5 @@ export function useSegments() {
     };
   }, []);
 
-  return segments ?? [];
+  return [segments, isLoading];
 }

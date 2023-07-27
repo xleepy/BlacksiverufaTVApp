@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card component tests should render 1`] = `
+<View
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+>
+  <View
+    style={
+      {
+        "borderBottomColor": "black",
+        "borderColor": "rgba(0,0,0,.125)",
+        "borderRadius": 0.25,
+        "borderStyle": "solid",
+        "borderWidth": 1,
+        "gap": 10,
+        "height": 220,
+        "padding": 10,
+      }
+    }
+    testID="test"
+  >
+    <View
+      accessibilityIgnoresInvertColors={true}
+      style={
+        {
+          "height": 200,
+          "width": "100%",
+        }
+      }
+    >
+      <Image
+        resizeMode="cover"
+        source={
+          {
+            "cache": "default",
+            "uri": "https://bsufiles.drhx.ru/streams/test-sm.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            {
+              "height": 200,
+              "width": "100%",
+            },
+            undefined,
+          ]
+        }
+      />
+      <Text
+        style={
+          {
+            "backgroundColor": "rgb(52, 58, 64)",
+            "color": "white",
+            "marginTop": "auto",
+            "padding": 8,
+            "textAlign": "justify",
+          }
+        }
+      >
+        test
+      </Text>
+    </View>
+  </View>
+</View>
+`;

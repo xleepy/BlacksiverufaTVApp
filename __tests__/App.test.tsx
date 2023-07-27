@@ -16,22 +16,34 @@ jest.mock('../components/home/hooks.ts', () => {
   };
 });
 
-it('renders correctly', () => {
-  const { toJSON } = render(<App />);
-  expect(toJSON()).toMatchSnapshot();
-});
+describe('App tests', () => {
+  // beforeEach(() => {
+  //   jest.useFakeTimers();
+  // });
 
-it('should navigate to test', async () => {
-  const { findByTestId, queryByTestId } = render(<App />);
+  // afterEach(() => {
+  //   jest.runOnlyPendingTimers();
+  //   jest.useRealTimers();
+  // });
 
-  const element = await findByTestId('test');
-  fireEvent.press(element);
-
-  const player = queryByTestId('test-player');
-
-  await waitFor(() => {
-    expect(player).toBeDefined();
+  it('renders correctly', () => {
+    const { toJSON } = render(<App />);
+    expect(toJSON()).toMatchSnapshot();
   });
 
-  expect(screen.toJSON()).toMatchSnapshot();
+  it('should navigate to test', async () => {
+    const { findByTestId, queryByTestId } = render(<App />);
+    jest.advanceTimersByTime(0);
+
+    const element = await findByTestId('test');
+    fireEvent.press(element);
+
+    const player = queryByTestId('test-player');
+
+    await waitFor(() => {
+      expect(player).toBeDefined();
+    });
+
+    expect(screen.toJSON()).toMatchSnapshot();
+  });
 });

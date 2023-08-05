@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import { BASE_URL } from '@env';
 
 type Props = {
   segment: Segment;
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Card = memo(({ segment, onSegmentSelect }: Props) => {
+export const Card = ({ segment, onSegmentSelect }: Props) => {
   const handlePress = useCallback(() => {
     onSegmentSelect(segment);
   }, [onSegmentSelect, segment]);
@@ -51,7 +52,7 @@ export const Card = memo(({ segment, onSegmentSelect }: Props) => {
       };
     }
     return {
-      uri: `https://bsufiles.drhx.ru/streams/${segment.id}-sm.jpg`,
+      uri: `${BASE_URL}/streams/${segment.id}-sm.jpg`,
       cache: 'default',
     };
   }, [segment]);
@@ -68,4 +69,4 @@ export const Card = memo(({ segment, onSegmentSelect }: Props) => {
       </View>
     </TouchableHighlight>
   );
-});
+};

@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import WebView from 'react-native-webview';
 import { NativePlayer } from './NativePlayer';
 import { Segment } from '../home/hooks';
+import { WebPlayer } from './WebPlayer';
 
 type Props = Segment;
 
@@ -17,26 +17,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const runFirst = `
-window.isNativeApp = true;
-true; // note: this is required, or you'll sometimes get silent failures
-`;
-
 export const Player = ({ youtube, name, direct, hls }: Props) => {
   const haveDirectLink = !!hls || !!direct;
   return (
     <View testID={`${name}-player`} style={styles.container}>
       {haveDirectLink && <NativePlayer hls={hls} direct={direct} />}
       {!haveDirectLink && youtube && (
-        <WebView
-          injectedJavaScriptBeforeContentLoaded={runFirst}
-          allowsFullscreenVideo
-          thirdPartyCookiesEnabled
-          accessibilityLabel={name}
-          source={{
-            uri: `https://www.youtube.com/embed/${youtube}`,
-          }}
-        />
+        <WebPlayer youtube={youtube} name={name} />
       )}
     </View>
   );

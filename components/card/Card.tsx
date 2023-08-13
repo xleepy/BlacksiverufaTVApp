@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, memo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Segment } from '../home/hooks';
 import {
   ImageBackground,
